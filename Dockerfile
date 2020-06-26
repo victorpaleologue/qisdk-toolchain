@@ -12,7 +12,7 @@ RUN apt-get update && apt-get install -y apt-utils ca-certificates locales \
     libtool libudev-dev \
     && rm -rf /var/lib/apt/lists/*
 RUN pip3 install --upgrade pip
-RUN pip3 install --upgrade cmake qibuild
+RUN pip3 install --upgrade cmake
 
 ENV CPPFLAGS "-Wall -std=c++11"
 WORKDIR /opt/workspace
