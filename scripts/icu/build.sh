@@ -1,6 +1,6 @@
 #!/bin/bash
 
-export LIB_VER="release-67-1" # boost depends on it so if you change here remember to update boost script
+export LIB_VER=${LIB_VER:-"release-67-1"}  # boost depends on it so if you change here remember to update boost script
 export NAME="icu"
 export EXTRACT_DIR="/tmp/${NAME}"
 export INSTALL_DIR="/opt/build/${NAME}"
@@ -24,4 +24,12 @@ echo "${LIB_VER}" >> ${INSTALL_DIR}/VERSION
 
 # install on the system for the next tasks
 build_and_install
+cd ..
 rm -rf ${EXTRACT_DIR}
+
+if [ -x "$(command -v qibuild)" ]; then
+  echo "------------ Building qitoolchain package ----------------"
+  qitoolchain make-package --auto --name ${NAME} --version ${LIB_VER} --target linux64 ${INSTALL_DIR} --output /opt/workspace/
+else
+  echo "Qibuild is not installed, skipping packaging"
+fi
