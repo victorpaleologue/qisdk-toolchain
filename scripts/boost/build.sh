@@ -1,6 +1,6 @@
 #!/bin/bash
 
-export LIB_VER=64
+export LIB_VER=${LIB_VER:-"64"}
 export NAME="boost"
 export EXTRACT_DIR="/tmp/"
 export INSTALL_DIR="/opt/build/${NAME}"
@@ -27,4 +27,12 @@ echo "${LIB_VER}" >> ${INSTALL_DIR}/VERSION
 
 # install on the system for the next tasks
 build_and_install
+cd ..
 rm -rf ${EXTRACT_DIR}/boost*
+
+if [ -x "$(command -v qibuild)" ]; then
+  echo "------------ Building qitoolchain package ----------------"
+  qitoolchain make-package --auto --name ${NAME} --version "1.${LIB_VER}.0" --target linux64 ${INSTALL_DIR} --output /opt/workspace/
+else
+  echo "Qibuild is not installed, skipping packaging"
+fi
