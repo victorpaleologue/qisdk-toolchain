@@ -1,8 +1,9 @@
 #!/bin/bash
 
-export TINYXML_VER="8.0.0"
-export EXTRACT_DIR="/tmp/tinyxml"
-export INSTALL_DIR="/opt/tinyxml_${TINYXML_VER}"
+export LIB_VER="8.0.0"
+export NAME="tinyxml2"
+export EXTRACT_DIR="/tmp/${NAME}"
+export INSTALL_DIR="/opt/build/${NAME}"
 export GIT_URL="https://github.com/leethomason/tinyxml2.git"
 
 function build_and_install()
@@ -22,9 +23,10 @@ function build_and_install()
   rm -rf build
 }
 
-git clone ${GIT_URL} ${EXTRACT_DIR} -b ${TINYXML_VER}
+git clone ${GIT_URL} ${EXTRACT_DIR} -b ${LIB_VER}
 cd ${EXTRACT_DIR}
 build_and_install ${INSTALL_DIR}
+echo "${LIB_VER}" >> ${INSTALL_DIR}/VERSION
 
 # install on the system for the next tasks
 build_and_install
