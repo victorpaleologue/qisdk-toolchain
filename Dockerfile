@@ -4,6 +4,7 @@ LABEL Version="1.0"
 LABEL Maintainer="Nicolas Gargaud <ngargaud@aldebaran-robotics.com>"
 LABEL Description="Slave image to build toolchain package"
 
+ENV PATH=$PATH:/root/.local/bin
 ENV DEBIAN_FRONTEND noninteractive
 ENV PIP_DEFAULT_TIMEOUT 1000
 RUN apt-get update && apt-get install -y apt-utils ca-certificates locales \
@@ -16,4 +17,4 @@ RUN pip3 install --upgrade cmake
 
 ENV CPPFLAGS "-Wall -std=c++11"
 WORKDIR /opt/workspace
-COPY scripts .
+COPY scripts /opt/scripts
