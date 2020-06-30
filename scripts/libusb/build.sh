@@ -1,8 +1,9 @@
 #!/bin/bash
 
-export LIBUSB_VER="v1.0.22"
-export EXTRACT_DIR="/tmp/libusb"
-export INSTALL_DIR="/opt/libusb_${LIBUSB_VER}"
+export LIB_VER="v1.0.22"
+export NAME="libusb"
+export EXTRACT_DIR="/tmp/${NAME}"
+export INSTALL_DIR="/opt/build/${NAME}"
 export GIT_URL="https://github.com/libusb/libusb.git"
 
 function build_and_install()
@@ -17,9 +18,10 @@ function build_and_install()
   make install
 }
 
-git clone ${GIT_URL} ${EXTRACT_DIR} -b ${LIBUSB_VER}
+git clone ${GIT_URL} ${EXTRACT_DIR} -b ${LIB_VER}
 cd ${EXTRACT_DIR}
 build_and_install ${INSTALL_DIR}
+echo "${LIB_VER}" >> ${INSTALL_DIR}/VERSION
 
 # install on the system for the next tasks
 build_and_install

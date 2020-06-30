@@ -1,8 +1,9 @@
 #!/bin/bash
 
-export ZLIB_VER="v1.2.11"
-export EXTRACT_DIR="/tmp/zlib"
-export INSTALL_DIR="/opt/zlib_${ZLIB_VER}"
+export LIB_VER="v1.2.11"
+export NAME="zlib"
+export EXTRACT_DIR="/tmp/${NAME}"
+export INSTALL_DIR="/opt/build/${NAME}"
 export GIT_URL="https://github.com/madler/zlib.git"
 
 function build_and_install()
@@ -16,9 +17,10 @@ function build_and_install()
   make install
 }
 
-git clone ${GIT_URL} ${EXTRACT_DIR} -b ${ZLIB_VER}
+git clone ${GIT_URL} ${EXTRACT_DIR} -b ${LIB_VER}
 cd ${EXTRACT_DIR}
 build_and_install ${INSTALL_DIR}
+echo "${LIB_VER}" >> ${INSTALL_DIR}/VERSION
 
 # install on the system for the next tasks
 build_and_install

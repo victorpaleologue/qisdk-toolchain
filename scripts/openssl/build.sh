@@ -1,8 +1,9 @@
 #!/bin/bash
 
-export SSL_VER="OpenSSL_1_0_2u"
-export EXTRACT_DIR="/tmp/openssl"
-export INSTALL_DIR="/opt/openssl_${SSL_VER}"
+export LIB_VER="OpenSSL_1_0_2u"
+export NAME="openssl"
+export EXTRACT_DIR="/tmp/${NAME}"
+export INSTALL_DIR="/opt/build/${NAME}"
 export GIT_URL="https://github.com/openssl/openssl.git"
 
 function build_and_install()
@@ -16,9 +17,10 @@ function build_and_install()
   make install_sw
 }
 
-git clone ${GIT_URL} ${EXTRACT_DIR} -b ${SSL_VER}
+git clone ${GIT_URL} ${EXTRACT_DIR} -b ${LIB_VER}
 cd ${EXTRACT_DIR}
 build_and_install ${INSTALL_DIR}
+echo "${LIB_VER}" >> ${INSTALL_DIR}/VERSION
 
 # install on the system for the next tasks
 build_and_install

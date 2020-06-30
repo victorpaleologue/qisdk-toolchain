@@ -1,8 +1,9 @@
 #!/bin/bash
 
-export EIGEN_VER="3.3.7"
-export EXTRACT_DIR="/tmp/eigen"
-export INSTALL_DIR="/opt/eigen_${EIGEN_VER}"
+export LIB_VER="3.3.7"
+export NAME="eigen"
+export EXTRACT_DIR="/tmp/${NAME}"
+export INSTALL_DIR="/opt/build/${NAME}"
 export GIT_URL="https://gitlab.com/libeigen/eigen.git"
 
 function build_and_install()
@@ -22,9 +23,11 @@ function build_and_install()
   rm -rf build
 }
 
-git clone ${GIT_URL} ${EXTRACT_DIR} -b ${EIGEN_VER}
+git clone ${GIT_URL} ${EXTRACT_DIR} -b ${LIB_VER}
 cd ${EXTRACT_DIR}
 build_and_install ${INSTALL_DIR}
+echo "${LIB_VER}" >> ${INSTALL_DIR}/VERSION
+
 
 # install on the system for the next tasks
 build_and_install

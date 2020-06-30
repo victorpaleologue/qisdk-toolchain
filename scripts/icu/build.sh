@@ -1,8 +1,9 @@
 #!/bin/bash
 
-export ICU_VER="release-67-1" # boost depends on it so if you change here remember to update boost script
-export EXTRACT_DIR="/tmp/icu"
-export INSTALL_DIR="/opt/icu_${ICU_VER}"
+export LIB_VER="release-67-1" # boost depends on it so if you change here remember to update boost script
+export NAME="icu"
+export EXTRACT_DIR="/tmp/${NAME}"
+export INSTALL_DIR="/opt/build/${NAME}"
 export GIT_URL="https://github.com/unicode-org/icu.git"
 
 function build_and_install()
@@ -16,9 +17,10 @@ function build_and_install()
   make install
 }
 
-git clone ${GIT_URL} ${EXTRACT_DIR} -b ${ICU_VER}
+git clone ${GIT_URL} ${EXTRACT_DIR} -b ${LIB_VER}
 cd ${EXTRACT_DIR}/icu4c/source
 build_and_install ${INSTALL_DIR}
+echo "${LIB_VER}" >> ${INSTALL_DIR}/VERSION
 
 # install on the system for the next tasks
 build_and_install
