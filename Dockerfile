@@ -1,4 +1,4 @@
-FROM ubuntu:18.04
+FROM ubuntu:20.04
 
 LABEL Version="1.0"
 LABEL Maintainer="Nicolas Gargaud <ngargaud@aldebaran-robotics.com>"
@@ -15,6 +15,6 @@ RUN apt-get update && apt-get install -y apt-utils ca-certificates locales \
 RUN pip3 install --upgrade pip
 RUN pip3 install --upgrade cmake
 
-ENV CPPFLAGS "-Wall -std=c++11"
+ENV CPPFLAGS "-Wall -std=c++11 -fPIC"
 WORKDIR /opt/workspace
 COPY scripts /opt/scripts
