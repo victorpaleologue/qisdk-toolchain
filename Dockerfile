@@ -1,4 +1,4 @@
-FROM ubuntu:16.04
+FROM ubuntu:18.04
 
 LABEL Version="1.0"
 LABEL Maintainer="Nicolas Gargaud <ngargaud@aldebaran-robotics.com>"
