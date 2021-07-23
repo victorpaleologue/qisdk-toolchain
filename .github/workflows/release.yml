@@ -1,0 +1,66 @@
+name: Release Toolchain Feed
+
+on:
+  push:
+    tags: "v*"
+  pull_request:
+    tags: "v*"
+
+env:
+  # Customize the CMake build type here (Release, Debug, RelWithDebInfo, etc.)
+  BUILD_TYPE: Release
+
+jobs:
+  gh_tagged_release:
+
+    # The CMake configure and build commands are platform agnostic and should work equally
+    # well on Windows or Mac.  You can convert this to a matrix build if you need
+    # cross-platform coverage.
+    # See: https://docs.github.com/en/free-pro-team@latest/actions/learn-github-actions/managing-complex-workflows#using-a-build-matrix
+    runs-on: ubuntu-20.04
+
+    steps:
+    
+    - name: Install Tools
+      run: sudo apt update && sudo apt install apt-utils ca-certificates locales curl wget python3-dev build-essential pkg-config
+
+    - name: Install QiBuild
+      run: sudo pip install qibuild
+      
+    - name: Install Dependencies
+      run: sudo apt update && sudo apt install libtool libudev-dev
+    
+    - uses: actions/checkout@v2
+    
+    - name: Display CMake Version
+      run: cmake --version
+      
+    - name: Display Python Version
+      run: python3 --version
+ 
+    - name: Prepare Output Directory
+      run: sudo mkdir -p /opt/workspace
+
+    - name: ICU
+      working-directory: scripts/icu
+      run: sudo bash build.sh
+
+    - name: ZLib
+      working-directory: scripts/zlib
+      run: sudo bash build.sh
+
+    - name: Boost
+      working-directory: scripts/boost
+      run: sudo bash build.sh
+
+    - name: OpenSSL
+      working-directory: scripts/openssl
+      run: sudo bash build.sh
+
+    - uses: "marvinpinto/action-automatic-releases@latest"
+      with:
+        repo_token: "${{ secrets.GITHUB_TOKEN }}"
+        prerelease: true
+        files: |
+          /opt/workspace/*.zip
+      id: "automatic_releases"
