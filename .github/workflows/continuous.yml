@@ -20,12 +20,17 @@ jobs:
     runs-on: ubuntu-20.04
 
     steps:
+    - name: Update APT
+      run: sudo apt update
 
-    - name: Install Tools
-      run: sudo apt update && sudo apt install apt-utils ca-certificates locales curl wget python3-dev build-essential pkg-config
+    - name: Install Utilities
+      run: sudo apt install apt-utils ca-certificates locales curl wget
+
+    - name: Install Build Tools
+      run: sudo apt install build-essential pkg-config libtool
 
     - name: Install Dependencies
-      run: sudo apt update && sudo apt install libtool libudev-dev
+      run: sudo apt install python3-dev libudev-dev
 
     - uses: actions/checkout@v2
 
