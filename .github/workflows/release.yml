@@ -58,7 +58,18 @@ jobs:
     - uses: "marvinpinto/action-automatic-releases@latest"
       with:
         repo_token: "${{ secrets.GITHUB_TOKEN }}"
-        prerelease: true
+        prerelease: false
         files: |
           /opt/workspace/*.zip
-      id: "automatic_releases"
+      id: "first_release_step"
+
+    - name: Make QiToolchain Feed
+      run: make_feed.sh
+
+    - uses: "marvinpinto/action-automatic-releases@latest"
+      with:
+        repo_token: "${{ secrets.GITHUB_TOKEN }}"
+        prerelease: false
+        files: |
+          feed.xml
+      id: "second_release_step"
