@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -e
+
 export LIB_VER=${LIB_VER:-"64"}
 export NAME="boost"
 export EXTRACT_DIR="/tmp/"
@@ -15,7 +17,12 @@ function build_and_install()
     ./bootstrap.sh --with-python-version=3.5 --with-python=$(which python3) --with-icu=${ICU_ROOT} --prefix="${INSTALL_DIR}"
   fi
 
-  ./b2 -a cxxflags="${CPPFLAGS}" && ./b2 install && ldconfig
+  if [ -n "${CPPFLAGS}" ]; then
+    ./b2 -a cxxflags="${CPPFLAGS}"
+  else
+    ./b2 -a
+  fi
+  ./b2 install && ldconfig
 }
 
 # install boost from source (specific version is needed)
