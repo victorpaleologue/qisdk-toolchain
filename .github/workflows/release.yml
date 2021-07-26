@@ -60,21 +60,24 @@ jobs:
       working-directory: scripts/openssl
       run: sudo bash build.sh
 
-    - uses: "marvinpinto/action-automatic-releases@latest"
+    - name: Release Packages
+      uses: "marvinpinto/action-automatic-releases@latest"
       with:
         repo_token: "${{ secrets.GITHUB_TOKEN }}"
         prerelease: false
         files: |
           /opt/workspace/*.zip
-      id: "first_release_step"
+      id: "release"
 
-    - name: Make QiToolchain Feed
+    - name: Make Feed
       run: scripts/make_feed.sh
 
-    - uses: "marvinpinto/action-automatic-releases@latest"
+    - name: Release Feed
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ github.token }}
       with:
-        repo_token: "${{ secrets.GITHUB_TOKEN }}"
-        prerelease: false
-        files: |
-          feed.xml
-      id: "second_release_step"
+        upload_url: ${{ steps.release.outputs.upload_url }}
+        asset_path: feed.xml
+        asset_name: feed.xml
+        asset_content_type: application/xml

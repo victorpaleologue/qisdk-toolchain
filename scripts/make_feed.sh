@@ -13,7 +13,7 @@ for URL in $PACKAGES_URLS; do
     wget -q $URL -O $ZIP;
     NAME=$(unzip -p $ZIP package.xml | xmllint --xpath "string(/package/@name)" -)
     VERSION=$(unzip -p $ZIP package.xml | xmllint --xpath "string(/package/@version)" -)
-    echo "  <package name=${NAME} version=${VERSION} url=\"${URL}\" />" >> feed.xml
+    echo "  <package name=\"${NAME}\" version=\"${VERSION}\" url=\"${URL}\" />" >> feed.xml
     rm $ZIP
 done
 echo "</toolchain>" >> feed.xml
