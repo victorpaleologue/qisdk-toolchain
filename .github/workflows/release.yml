@@ -18,15 +18,20 @@ jobs:
     runs-on: ubuntu-20.04
 
     steps:
-    
-    - name: Install Tools
-      run: sudo apt update && sudo apt install apt-utils ca-certificates locales curl wget python3-dev build-essential pkg-config
+    - name: Update APT
+      run: sudo apt update
+
+    - name: Install Utilities
+      run: sudo apt install apt-utils ca-certificates locales curl wget jq libxml2-utils
+
+    - name: Install Build Tools
+      run: sudo apt install build-essential pkg-config libtool
 
     - name: Install QiBuild
       run: sudo pip install qibuild
       
     - name: Install Dependencies
-      run: sudo apt update && sudo apt install libtool libudev-dev
+      run: sudo apt install python3-dev libudev-dev
     
     - uses: actions/checkout@v2
     
@@ -55,10 +60,24 @@ jobs:
       working-directory: scripts/openssl
       run: sudo bash build.sh
 
-    - uses: "marvinpinto/action-automatic-releases@latest"
+    - name: Release Packages
+      uses: "marvinpinto/action-automatic-releases@latest"
       with:
         repo_token: "${{ secrets.GITHUB_TOKEN }}"
-        prerelease: true
+        prerelease: false
         files: |
           /opt/workspace/*.zip
-      id: "automatic_releases"
+      id: "release"
+
+    - name: Make Feed
+      run: scripts/make_feed.sh
+
+    - name: Release Feed
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ github.token }}
+      with:
+        upload_url: ${{ steps.release.outputs.upload_url }}
+        asset_path: feed.xml
+        asset_name: feed.xml
+        asset_content_type: application/xml
