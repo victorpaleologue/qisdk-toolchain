@@ -17,12 +17,7 @@ function build_and_install()
     ./bootstrap.sh --with-python-version=3.5 --with-python=$(which python3) --with-icu=${ICU_ROOT} --prefix="${INSTALL_DIR}"
   fi
 
-  if [ -n "${CPPFLAGS}" ]; then
-    ./b2 -a cxxflags="${CPPFLAGS}"
-  else
-    ./b2 -a
-  fi
-  ./b2 install && ldconfig
+  ./b2 -a cxxflags=" -std=c++11 -fPIC" && ./b2 install && ldconfig
 }
 
 # install boost from source (specific version is needed)
