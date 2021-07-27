@@ -17,7 +17,7 @@ RUN pip3 install --upgrade cmake && pip3 install --upgrade qibuild
 COPY entrypoint.sh /usr/bin/entrypoint.sh
 RUN chmod 0740 /usr/bin/entrypoint.sh
 
-ENV CPPFLAGS "-Wall -std=c++11 -fPIC"
+ENV CPPFLAGS "-Wall -std=gnu++11 -fPIC"
 WORKDIR /opt/workspace
 COPY scripts /opt/scripts
 ENTRYPOINT ["/usr/bin/entrypoint.sh"]
