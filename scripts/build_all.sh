@@ -1,5 +1,7 @@
 #!/bin/bash
 
+export CXXFLAGS=" -std=c++11 -fPIC"
+
 cd zlib && bash build.sh && cd ..
 cd icu && bash build.sh && cd ..
 cd tinyxml && bash build.sh && cd ..

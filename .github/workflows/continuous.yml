@@ -19,6 +19,9 @@ jobs:
     # See: https://docs.github.com/en/free-pro-team@latest/actions/learn-github-actions/managing-complex-workflows#using-a-build-matrix
     runs-on: ubuntu-20.04
 
+    env:
+      CXXFLAGS: -std=c++11 -fPIC
+
     steps:
     - name: Update APT
       run: sudo apt update
@@ -41,21 +44,42 @@ jobs:
       run: python3 --version
 
     - name: Prepare Output Directory
-      run: sudo mkdir -p /opt/workspace
+      run: mkdir -p /tmp/workspace
 
     - name: ICU
       working-directory: scripts/icu
-      run: sudo bash build.sh
+      run: bash build.sh
 
     - name: ZLib
       working-directory: scripts/zlib
-      run: sudo bash build.sh
+      run: bash build.sh
 
     - name: Boost
       working-directory: scripts/boost
-      run: sudo bash build.sh
+      run: bash build.sh
 
     - name: OpenSSL
       working-directory: scripts/openssl
-      run: sudo bash build.sh
+      run: bash build.sh
 
+    - name: Pre-Release Packages
+      uses: "marvinpinto/action-automatic-releases@latest"
+      with:
+        repo_token: "${{ secrets.GITHUB_TOKEN }}"
+        prerelease: true
+        files: |
+          /tmp/workspace/*.zip
+      id: "release"
+
+    - name: Make Feed
+      run: scripts/make_feed.sh
+
+    - name: Release Feed
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ github.token }}
+      with:
+        upload_url: ${{ steps.release.outputs.upload_url }}
+        asset_path: feed.xml
+        asset_name: feed.xml
+        asset_content_type: application/xml
