@@ -14,7 +14,7 @@ function build_and_install()
     ./config --prefix=${INSTALL_DIR} --openssldir=${INSTALL_DIR}
   fi
 
-  echo "Building OpenSSL with C++ flags: ${CPPFLAGS}"
+  echo "Building OpenSSL with C++ flags: ${CPPFLAGS} ${CXXFLAGS}"
   make -j4
   sudo make install_sw
 }

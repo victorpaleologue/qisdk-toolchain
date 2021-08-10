@@ -17,9 +17,9 @@ function build_and_install()
     ./bootstrap.sh --with-python-version=3.5 --with-python=$(which python3) --with-icu=${ICU_ROOT} --prefix="${INSTALL_DIR}"
   fi
 
-  echo "Building Boost with C++ flags: ${CPPFLAGS}"
-  if [ -n "${CPPFLAGS}" ]; then
-    ./b2 -a cxxflags="${CPPFLAGS}"
+  echo "Building Boost with C++ flags: ${CXXFLAGS}"
+  if [ -n "${CXXFLAGS}" ]; then
+    ./b2 -a cxxflags="${CXXFLAGS}"
   else
     ./b2 -a
   fi
