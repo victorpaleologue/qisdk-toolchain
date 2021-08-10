@@ -17,11 +17,20 @@ function build_and_install()
     ./bootstrap.sh --with-python-version=3.5 --with-python=$(which python3) --with-icu=${ICU_ROOT} --prefix="${INSTALL_DIR}"
   fi
 
-  echo "Building Boost with C++ flags: ${CPPFLAGS}"
+  export GATHERED_FLAGS=""
+  if [ -n "${CXXFLAGS}" ]; then
+    export GATHERED_FLAGS="${CXXFLAGS}"
+  fi
   if [ -n "${CPPFLAGS}" ]; then
-    ./b2 -a cxxflags="${CPPFLAGS}"
+    export GATHERED_FLAGS="${GATHERED_FLAGS} ${CPPFLAGS}"
+  fi
+
+  if [ -n "${GATHERED_FLAGS}" ]; then
+    echo "Building Boost with C++ flags: ${GATHERED_FLAGS}"
+    ./b2 variant=release link=shared cxxflags="${GATHERED_FLAGS}"
   else
-    ./b2 -a
+    echo "Building Boost with no C++ flag"
+    ./b2 variant=release link=shared
   fi
 
   sudo ./b2 install
@@ -38,7 +47,7 @@ sudo echo '${LIB_VER}' | sudo tee -a ${INSTALL_DIR}/VERSION
 # install on the system for the next tasks
 build_and_install
 cd ..
-rm -rf ${EXTRACT_DIR}/boost*
+sudo rm -rf ${EXTRACT_DIR}/boost*
 
 if [ -x "$(command -v qibuild)" ]; then
   echo "------------ Building qitoolchain package ----------------"

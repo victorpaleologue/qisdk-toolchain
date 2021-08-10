@@ -25,7 +25,7 @@ sudo echo '${LIB_VER}' | sudo tee -a ${INSTALL_DIR}/VERSION
 # install on the system for the next tasks
 build_and_install
 cd ..
-rm -rf ${EXTRACT_DIR}/sqlite*
+sudo rm -rf ${EXTRACT_DIR}/sqlite*
 
 if [ -x "$(command -v qibuild)" ]; then
   echo "------------ Building qitoolchain package ----------------"

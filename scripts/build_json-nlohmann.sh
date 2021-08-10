@@ -20,7 +20,7 @@ function build_and_install()
   sudo make install
 
   cd ..
-  rm -rf build
+  sudo rm -rf build
 }
 
 git clone ${GIT_URL} ${EXTRACT_DIR} -b ${LIB_VER}
@@ -31,7 +31,7 @@ sudo echo '${LIB_VER}' | sudo tee -a ${INSTALL_DIR}/VERSION
 # install on the system for the next tasks
 build_and_install
 cd ..
-rm -rf ${EXTRACT_DIR}
+sudo rm -rf ${EXTRACT_DIR}
 
 if [ -x "$(command -v qibuild)" ]; then
   echo "------------ Building qitoolchain package ----------------"
