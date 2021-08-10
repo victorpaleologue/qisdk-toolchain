@@ -1,26 +1,32 @@
 #!/bin/bash
 
-export LIB_VER=${LIB_VER:-"v1.2.11"}
-export NAME="zlib"
+export LIB_VER=${LIB_VER:-"v3.8.0"}
+export NAME="json"
 export EXTRACT_DIR="/tmp/${NAME}"
 export INSTALL_DIR="/tmp/build/${NAME}"
-export GIT_URL="https://github.com/madler/zlib.git"
+export GIT_URL="https://github.com/nlohmann/json.git"
 
 function build_and_install()
 {
+  mkdir build
+  cd build
+
   if [ $# -eq 0 ]; then
-    ./configure
+    cmake ..
   else
-    ./configure --prefix ${INSTALL_DIR}
+    cmake -DCMAKE_INSTALL_PREFIX=${INSTALL_DIR} ..
   fi
   make -j4
   sudo make install
+
+  cd ..
+  rm -rf build
 }
 
 git clone ${GIT_URL} ${EXTRACT_DIR} -b ${LIB_VER}
 cd ${EXTRACT_DIR}
 build_and_install ${INSTALL_DIR}
-echo "${LIB_VER}" >> ${INSTALL_DIR}/VERSION
+sudo echo '${LIB_VER}' | sudo tee -a ${INSTALL_DIR}/VERSION
 
 # install on the system for the next tasks
 build_and_install

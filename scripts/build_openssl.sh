@@ -1,31 +1,33 @@
 #!/bin/bash
 
-export LIB_VER=${LIB_VER:-"3320300"}
-export NAME="sqlite3"
-export EXTRACT_DIR="/tmp/"
+export LIB_VER=${LIB_VER:-"OpenSSL_1_0_2u"}
+export NAME="openssl"
+export EXTRACT_DIR="/tmp/${NAME}"
 export INSTALL_DIR="/tmp/build/${NAME}"
-export PKG_URL="https://www2.sqlite.org/2020/sqlite-autoconf-${LIB_VER}.tar.gz"
+export GIT_URL="https://github.com/openssl/openssl.git"
 
 function build_and_install()
 {
   if [ $# -eq 0 ]; then
-    ./configure
+    ./config
   else
-    ./configure --prefix ${INSTALL_DIR}
+    ./config --prefix=${INSTALL_DIR} --openssldir=${INSTALL_DIR}
   fi
+
+  echo "Building OpenSSL with C++ flags: ${CPPFLAGS}"
   make -j4
-  sudo make install
+  sudo make install_sw
 }
 
-mkdir -p "${EXTRACT_DIR}" && cd "${EXTRACT_DIR}"
-wget "${PKG_URL}" && tar -xf "sqlite-autoconf-${LIB_VER}.tar.gz" && cd "sqlite-autoconf-${LIB_VER}"
+git clone ${GIT_URL} ${EXTRACT_DIR} -b ${LIB_VER}
+cd ${EXTRACT_DIR}
 build_and_install ${INSTALL_DIR}
-sudo echo "${LIB_VER}" >> ${INSTALL_DIR}/VERSION
+sudo echo '${LIB_VER}' | sudo tee -a ${INSTALL_DIR}/VERSION
 
 # install on the system for the next tasks
 build_and_install
 cd ..
-rm -rf ${EXTRACT_DIR}/sqlite*
+rm -rf ${EXTRACT_DIR}
 
 if [ -x "$(command -v qibuild)" ]; then
   echo "------------ Building qitoolchain package ----------------"

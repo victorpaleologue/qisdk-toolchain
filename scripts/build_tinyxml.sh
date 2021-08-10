@@ -26,7 +26,7 @@ function build_and_install()
 git clone ${GIT_URL} ${EXTRACT_DIR} -b ${LIB_VER}
 cd ${EXTRACT_DIR}
 build_and_install ${INSTALL_DIR}
-sudo echo "${LIB_VER}" >> ${INSTALL_DIR}/VERSION
+sudo echo '${LIB_VER}' | sudo tee -a ${INSTALL_DIR}/VERSION
 
 # install on the system for the next tasks
 build_and_install

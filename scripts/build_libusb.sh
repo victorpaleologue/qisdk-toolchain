@@ -1,32 +1,27 @@
 #!/bin/bash
 
-export LIB_VER=${LIB_VER:-"v3.8.0"}
-export NAME="json"
+export LIB_VER=${LIB_VER:-"v1.0.22"}
+export NAME="libusb"
 export EXTRACT_DIR="/tmp/${NAME}"
 export INSTALL_DIR="/tmp/build/${NAME}"
-export GIT_URL="https://github.com/nlohmann/json.git"
+export GIT_URL="https://github.com/libusb/libusb.git"
 
 function build_and_install()
 {
-  mkdir build
-  cd build
-
+  ./bootstrap.sh
   if [ $# -eq 0 ]; then
-    cmake ..
+    ./configure
   else
-    cmake -DCMAKE_INSTALL_PREFIX=${INSTALL_DIR} ..
+    ./configure --prefix ${INSTALL_DIR}
   fi
   make -j4
   sudo make install
-
-  cd ..
-  rm -rf build
 }
 
 git clone ${GIT_URL} ${EXTRACT_DIR} -b ${LIB_VER}
 cd ${EXTRACT_DIR}
 build_and_install ${INSTALL_DIR}
-sudo echo "${LIB_VER}" >> ${INSTALL_DIR}/VERSION
+sudo echo '${LIB_VER}' | sudo tee -a ${INSTALL_DIR}/VERSION
 
 # install on the system for the next tasks
 build_and_install

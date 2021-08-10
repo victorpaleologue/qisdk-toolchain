@@ -47,20 +47,20 @@ jobs:
       run: mkdir -p /tmp/workspace
 
     - name: ICU
-      working-directory: scripts/icu
-      run: bash build.sh
+      working-directory: scripts
+      run: bash build_icu.sh
 
     - name: ZLib
-      working-directory: scripts/zlib
-      run: bash build.sh
+      working-directory: scripts
+      run: bash build_zlib.sh
 
     - name: Boost
-      working-directory: scripts/boost
-      run: bash build.sh
+      working-directory: scripts
+      run: bash build_boost.sh
 
     - name: OpenSSL
-      working-directory: scripts/openssl
-      run: bash build.sh
+      working-directory: scripts
+      run: bash build_openssl.sh
 
     - name: Pre-Release Packages
       uses: "marvinpinto/action-automatic-releases@latest"

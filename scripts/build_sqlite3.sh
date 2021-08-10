@@ -1,31 +1,31 @@
 #!/bin/bash
 
-export LIB_VER=${LIB_VER:-"release-67-1"}  # boost depends on it so if you change here remember to update boost script
-export NAME="icu"
-export EXTRACT_DIR="/tmp/${NAME}"
+export LIB_VER=${LIB_VER:-"3320300"}
+export NAME="sqlite3"
+export EXTRACT_DIR="/tmp/"
 export INSTALL_DIR="/tmp/build/${NAME}"
-export GIT_URL="https://github.com/unicode-org/icu.git"
+export PKG_URL="https://www2.sqlite.org/2020/sqlite-autoconf-${LIB_VER}.tar.gz"
 
 function build_and_install()
 {
   if [ $# -eq 0 ]; then
-    ./runConfigureICU Linux
+    ./configure
   else
-    ./runConfigureICU Linux --prefix $1
+    ./configure --prefix ${INSTALL_DIR}
   fi
   make -j4
   sudo make install
 }
 
-git clone ${GIT_URL} ${EXTRACT_DIR} -b ${LIB_VER}
-cd ${EXTRACT_DIR}/icu4c/source
+mkdir -p "${EXTRACT_DIR}" && cd "${EXTRACT_DIR}"
+wget "${PKG_URL}" && tar -xf "sqlite-autoconf-${LIB_VER}.tar.gz" && cd "sqlite-autoconf-${LIB_VER}"
 build_and_install ${INSTALL_DIR}
-sudo echo "${LIB_VER}" >> ${INSTALL_DIR}/VERSION
+sudo echo '${LIB_VER}' | sudo tee -a ${INSTALL_DIR}/VERSION
 
 # install on the system for the next tasks
 build_and_install
 cd ..
-rm -rf ${EXTRACT_DIR}
+rm -rf ${EXTRACT_DIR}/sqlite*
 
 if [ -x "$(command -v qibuild)" ]; then
   echo "------------ Building qitoolchain package ----------------"

@@ -33,7 +33,7 @@ function build_and_install()
 curl -L -v "${PKG_URL}" | tar -C ${EXTRACT_DIR}/ -xz
 cd ${EXTRACT_DIR}/boost_1_${LIB_VER}_0/
 build_and_install ${INSTALL_DIR}
-sudo echo "${LIB_VER}" >> ${INSTALL_DIR}/VERSION
+sudo echo '${LIB_VER}' | sudo tee -a ${INSTALL_DIR}/VERSION
 
 # install on the system for the next tasks
 build_and_install
