@@ -14,6 +14,10 @@ RUN apt-get update && apt-get install -y apt-utils ca-certificates locales \
     && rm -rf /var/lib/apt/lists/*
 RUN pip3 install --upgrade cmake && pip3 install --upgrade qibuild
 
+COPY entrypoint.sh /usr/bin/entrypoint.sh
+RUN chmod 0740 /usr/bin/entrypoint.sh
+
 ENV CPPFLAGS "-Wall -std=c++11 -fPIC"
 WORKDIR /opt/workspace
 COPY scripts /opt/scripts
+ENTRYPOINT ["/usr/bin/entrypoint.sh"]
