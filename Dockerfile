@@ -12,8 +12,7 @@ RUN apt-get update && apt-get install -y apt-utils ca-certificates locales \
     build-essential gdb automake autoconf pkg-config \
     libtool libudev-dev \
     && rm -rf /var/lib/apt/lists/*
-RUN pip3 install --upgrade pip
-RUN pip3 install --upgrade cmake
+RUN pip3 install --upgrade cmake && pip3 install --upgrade qibuild
 
 ENV CPPFLAGS "-Wall -std=c++11 -fPIC"
 WORKDIR /opt/workspace
