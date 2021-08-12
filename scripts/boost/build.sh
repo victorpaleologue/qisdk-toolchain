@@ -43,9 +43,11 @@ function build_and_install()
 
   if [ $# -eq 0 ]; then
     # No argument passed: installing in the system.
+    echo "Installing Boost in the system"
     sudo ./b2 install ${BOOST_COMPILE_ARGS}
   else
     # Argument passed: installing in a custom location.
+    echo "Installing Boost in $1"
     ./b2 install ${BOOST_COMPILE_ARGS}
   fi
 }
