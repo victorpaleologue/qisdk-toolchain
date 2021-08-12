@@ -1,21 +1,32 @@
-# qisdk-toolchain
+# Qi SDK Toolchain
 
-Toolchain build scripts for linux OS
-====================================
+This repository contains scripts to build a toolchain
+that allows to build the [!libQi project](https://github.com/aldebaran/libqi)
+and its related components that compose the Qi SDK.
 
-Build and run the environment
------------------------------
+This project is for Linux x86_64 only,
+and does not produce a toolchain for NAO or Pepper.
 
+## Build and run the environment
+
+Build the image (or use the official one):
 ```
-# Build the image (or use the official one):
 docker build --rm -t release-toolchain -f Dockerfile .
+```
 
-# Run the image (it will add or update all jobs describe in this project)
+Run the image (it will add or update all jobs described in this project)
+```
 docker run -ti --rm --name release-toolchain release-toolchain
 ```
 
-Available scripts:
-------------------
+Running the build scripts results in a set of `.zip` files
+in the `$WORKSPACE` folder (defaulted to `/tmp/workspace`).
+
+The toolchain feed is produced using [`make_feed.sh`](make_feed.sh),
+which relies on the latest release found on the GitHub repository.
+(TODO: make it work on the build results instead)
+
+## Available scripts:
 
 * icu             -> Done  
 * zlib            -> Done  
@@ -35,8 +46,17 @@ Available scripts:
 3) eigen3 (header only), sqlite, freeimage (optionnal?)  
 4) opencv (depends: eigen, freeimage, sqlite?)
 
-Notes:
-------
+## Notes
 
-# to check ABI version
+### To check ABI version
+
+```
 readelf -h lib.so
+```
+
+### Boost
+
+The `boost-config.cmake` included in the toolchain differs much from
+the one that `qitoolchain` would generate when calling `qitoolchain make-package`,
+and also from the one provided by the CMake project (as `FindBoost.cmake`).
+It is inherited by the legacy toolchains provided for NAOqi versions 2.5 and lower.
