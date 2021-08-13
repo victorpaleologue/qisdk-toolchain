@@ -1,13 +1,25 @@
 # Qi SDK Toolchain
 
-This repository contains scripts to build a toolchain
+This repository contains scripts to build
+a [`qibuild`](https://github.com/aldebaran/qibuild) toolchain
 that allows to build the [!libQi project](https://github.com/aldebaran/libqi)
 and its related components that compose the Qi SDK.
 
 This project is for Linux x86_64 only,
 and does not produce a toolchain for NAO or Pepper.
 
-## Build and run the environment
+## Usage
+
+To use this toolchain with in a [`qibuild`](https://github.com/aldebaran/qibuild) project:
+
+```
+qitoolchain create <your_toolchain_name> <path_to_feed_xml_in_release>
+qibuild add-config <your_config_name> -t <your_toolchain_name>
+qibuild configure -c <your_config_name>
+qibuild make -c <your_config_name>
+```
+
+## Build and run with Docker
 
 Build the image (or use the official one):
 ```
