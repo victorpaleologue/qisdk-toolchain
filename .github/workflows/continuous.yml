@@ -63,24 +63,5 @@ jobs:
       working-directory: scripts
       run: openssl/build.sh
 
-    - name: Pre-Release Packages
-      uses: "marvinpinto/action-automatic-releases@latest"
-      with:
-        repo_token: "${{ secrets.GITHUB_TOKEN }}"
-        prerelease: true
-        files: |
-          /tmp/workspace/*.zip
-      id: "release"
-
-    - name: Make Feed
-      run: scripts/make_feed.sh
-
-    - name: Release Feed
-      uses: actions/upload-release-asset@v1
-      env:
-        GITHUB_TOKEN: ${{ github.token }}
-      with:
-        upload_url: ${{ steps.release.outputs.upload_url }}
-        asset_path: feed.xml
-        asset_name: feed.xml
-        asset_content_type: application/xml
+    - name: List Packages
+      run: ls /tmp/workspace
