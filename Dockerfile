@@ -26,5 +26,4 @@ RUN chmod 0740 /usr/bin/entrypoint.sh
 USER $USER_NAME
 WORKDIR /opt/workspace
 COPY scripts /opt/scripts
-ENV CPPFLAGS "-Wall -std=gnu++11 -fPIC"
 ENTRYPOINT ["/usr/bin/entrypoint.sh"]
