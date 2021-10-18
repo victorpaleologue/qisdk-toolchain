@@ -25,7 +25,6 @@ function build_and_install()
     make install
   fi
 }
-}
 
 git clone ${GIT_URL} ${EXTRACT_DIR} -b ${LIB_VER}
 cd ${EXTRACT_DIR}
