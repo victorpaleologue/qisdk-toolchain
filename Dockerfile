@@ -21,9 +21,12 @@ RUN adduser --disabled-password --gecos "" $USER_NAME --uid $USER_UID \
   && echo "$USER_NAME:$USER_NAME" | chpasswd
 
 COPY entrypoint.sh /usr/bin/entrypoint.sh
-RUN chmod 0740 /usr/bin/entrypoint.sh
+RUN chmod +x /usr/bin/entrypoint.sh
+
+COPY scripts /opt/scripts
+RUN chown -R $USER_NAME:$USER_NAME /opt/scripts
 
 USER $USER_NAME
 WORKDIR /opt/workspace
-COPY scripts /opt/scripts
+
 ENTRYPOINT ["/usr/bin/entrypoint.sh"]
