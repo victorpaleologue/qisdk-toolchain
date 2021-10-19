@@ -66,7 +66,7 @@ if [ -x "$(command -v qibuild)" ]; then
   export CMAKE_INSTALL_DIR="${INSTALL_DIR}/${CMAKE_RELATIVE_DIR}"
   mkdir -p "${CMAKE_INSTALL_DIR}"
   cp -rv "${CMAKE_LOCAL_DIR}/"* "${CMAKE_INSTALL_DIR}"
-  qitoolchain make-package --auto --name ${NAME} --version "1.${LIB_VER}.0" --target linux64 ${INSTALL_DIR} --output /tmp/workspace/
+  qitoolchain make-package --auto --name ${NAME} --version "1.${LIB_VER}.0" --target linux64 ${INSTALL_DIR} --output /opt/workspace/
 else
   echo "Qibuild is not installed, skipping packaging"
 fi
