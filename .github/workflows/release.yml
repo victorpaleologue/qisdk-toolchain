@@ -33,18 +33,18 @@ jobs:
 
     - name: Install QiBuild
       run: sudo pip install qibuild
-      
+
     - name: Install Dependencies
       run: sudo apt install python3-dev libudev-dev
-    
+
     - uses: actions/checkout@v2
-    
+
     - name: Display CMake Version
       run: cmake --version
-      
+
     - name: Display Python Version
       run: python3 --version
- 
+
     - name: Prepare Output Directory
       run: mkdir -p /tmp/workspace
 
@@ -70,7 +70,7 @@ jobs:
         repo_token: "${{ secrets.GITHUB_TOKEN }}"
         prerelease: false
         files: |
-          /tmp/workspace/*.zip
+          /opt/workspace/*.zip
       id: "release"
 
     - name: Make Feed
