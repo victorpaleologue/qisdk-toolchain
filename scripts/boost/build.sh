@@ -1,7 +1,5 @@
 #!/bin/env bash
 
-set -e
-
 # This script's directory: https://stackoverflow.com/questions/59895/how-can-i-get-the-source-directory-of-a-bash-script-from-within-the-script-itsel
 export THIS_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
 
@@ -66,7 +64,7 @@ if [ -x "$(command -v qibuild)" ]; then
   export CMAKE_INSTALL_DIR="${INSTALL_DIR}/${CMAKE_RELATIVE_DIR}"
   mkdir -p "${CMAKE_INSTALL_DIR}"
   cp -rv "${CMAKE_LOCAL_DIR}/"* "${CMAKE_INSTALL_DIR}"
-  qitoolchain make-package --auto --name ${NAME} --version "1.${LIB_VER}.0" --target linux64 ${INSTALL_DIR} --output /opt/workspace/
+  sudo qitoolchain make-package --auto --name ${NAME} --version "1.${LIB_VER}.0" --target linux64 ${INSTALL_DIR} --output /opt/workspace/
 else
   echo "Qibuild is not installed, skipping packaging"
 fi
