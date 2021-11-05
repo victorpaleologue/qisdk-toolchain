@@ -9,6 +9,9 @@ ENV USER_NAME builder
 ENV PATH=$PATH:/root/.local/bin
 ENV DEBIAN_FRONTEND noninteractive
 ENV PIP_DEFAULT_TIMEOUT 1000
+ENV CPPFLAGS "-Wall -std=c++11 -fPIC"
+ENV CXXFLAGS "-Wall -std=c++11 -fPIC"
+
 RUN apt-get update && apt-get install -y apt-utils ca-certificates locales sudo \
     nano htop git curl wget tree python3 python3-dev python3-pip default-jdk \
     build-essential gdb automake autoconf pkg-config \
