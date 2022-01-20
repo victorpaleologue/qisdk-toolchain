@@ -16,8 +16,10 @@ RUN apt-get update && apt-get install -y apt-utils ca-certificates locales sudo 
     nano htop git curl wget tree python3 python3-dev python3-pip default-jdk \
     build-essential gdb automake autoconf pkg-config \
     libtool libudev-dev \
+    '^libxcb.*-dev' libx11-xcb-dev libgl1-mesa-dev libglu1-mesa-dev libxrender-dev libxi-dev libxkbcommon-dev libxkbcommon-x11-dev \
     && rm -rf /var/lib/apt/lists/*
 RUN pip3 install --upgrade cmake && pip3 install --upgrade qibuild
+RUN ln -s /usr/bin/python3 /usr/bin/python
 
 RUN adduser --disabled-password --gecos "" $USER_NAME --uid $USER_UID \
   && usermod -aG sudo $USER_NAME && echo '%sudo ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers \
