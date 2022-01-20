@@ -11,3 +11,4 @@ cd sqlite3 && bash build.sh && cd ..
 cd eigen3 && bash build.sh && cd ..
 cd openssl && bash build.sh && cd ..
 cd boost && bash build.sh && cd ..
+cd qt5 && bash build.sh && cd ..

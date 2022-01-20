@@ -48,13 +48,14 @@ which relies on the latest release found on the GitHub repository.
 * tinyxml         -> Done  
 * json-nlohmann   -> Done  
 * sqlite          -> Done  
-* eigen3          -> Done  
+* eigen3          -> Done
+* qt5             -> Done   
 * freeimage       -> Todo  
 * pthread         -> Todo  
 * opencv          -> Todo  
 
 1) zlib, icu, tinyxml, json-nlohmann (header only), pthread (windows only)  
-2) libusb, boost (depends: zlib, icu), openssl (depends: zlib)  
+2) libusb, boost (depends: zlib, icu), openssl (depends: zlib), qt5 (depends: icu)  
 3) eigen3 (header only), sqlite, freeimage (optionnal?)  
 4) opencv (depends: eigen, freeimage, sqlite?)
 
