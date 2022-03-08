@@ -40,7 +40,7 @@ sudo echo '${LIB_VER}' | sudo tee -a ${INSTALL_DIR}/VERSION
 
 if [ -x "$(command -v qibuild)" ]; then
   echo "------------ Building qitoolchain package ----------------"
-  sudo qitoolchain make-package --auto --name ${NAME} --version ${LIB_VER} --target linux64 ${INSTALL_DIR} --output /opt/workspace/
+  sudo qitoolchain make-package --auto --name ${NAME} --version ${LIB_VER} --target linux64 ${INSTALL_DIR} --output ${WORKSPACE_PATH}
 else
   echo "Qibuild is not installed, skipping packaging"
 fi

@@ -9,6 +9,7 @@ ENV USER_NAME builder
 ENV PATH=$PATH:/root/.local/bin
 ENV DEBIAN_FRONTEND noninteractive
 ENV PIP_DEFAULT_TIMEOUT 1000
+ENV WORKSPACE_PATH=/opt/workspace
 ENV CPPFLAGS "-Wall -std=c++11 -fPIC"
 ENV CXXFLAGS "-Wall -std=c++11 -fPIC"
 
@@ -32,6 +33,5 @@ COPY scripts /opt/scripts
 RUN chown -R $USER_NAME:$USER_NAME /opt/scripts
 
 USER $USER_NAME
-WORKDIR /opt/workspace
-
+WORKDIR ${WORKSPACE_PATH}
 ENTRYPOINT ["/usr/bin/entrypoint.sh"]

@@ -15,6 +15,7 @@ else
   if [ ! -z "$BUILDALL" ]; then
     cd /opt/scripts
     bash build_all.sh
+    ls -alh ${WORKSPACE_PATH}
   else
     bash
   fi
